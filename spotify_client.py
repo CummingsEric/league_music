@@ -51,6 +51,6 @@ class spotifyClient():
         except:
             return 0
 
-if __name__=="__main__":
+# if __name__=="__main__":
     # spot = spotifyClient()
     # spot.testSong("Blame it on me")
