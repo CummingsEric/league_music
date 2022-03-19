@@ -1,0 +1,134 @@
+{
+    "jungle": [
+        {
+            "name": "Welcome to the Jungle",
+            "id": "spotify:track:3ApODkZRvVrvj2v2UbbMUL",
+            "pos": 28
+        },
+        {
+            "name": "Jungle",
+            "id": "spotify:track:3xgK660fsZH7ZDcOMfIdfB",
+            "pos": 40
+        }
+    ],
+    "noDeath":[
+        {
+            "name": "Aint gonna die tonight",
+            "id": "spotify:track:0uuXUsowJAdBFtdmUUXweq",
+            "pos": 54
+        }
+    ],
+    "good": [
+        {
+            "name": "Through the fire and the flames",
+            "id": "spotify:track:4dASQiO1Eoo3RJvt74FtXB",
+            "pos": 0
+        },
+        {
+            "name": "Started from the bottom",
+            "id": "spotify:track:5DI9jxTHrEiFAhStG7VA8E",
+            "pos": 10
+        },
+        {
+            "name": "Cant hold us",
+            "id": "spotify:track:3bidbhpOYeV4knp8AIu8Xn",
+            "pos": 0
+        },
+        {
+            "name": "Come with me now",
+            "id": "spotify:track:2kWowW0k4oFymhkr7LmvzO",
+            "pos": 16
+        },
+        {
+            "name": "Drag me down",
+            "id": "spotify:track:70OTIpw8x8UXUsuCHW9i1i",
+            "pos": 60
+        },
+        {
+            "name": "Aint no rest for the wicked",
+            "id": "spotify:track:3kb72STxc2959ZqsTwu52i",
+            "pos": 0
+        },
+        {
+            "name": "Nothing scares me",
+            "id": "spotify:track:6xeCQCtG0VVzV69qTiUg21",
+            "pos": 80
+        }
+    ],
+    "bad": [
+        {
+            "name": "Sucker for pain",
+            "id": "spotify:track:4dASQiO1Eoo3RJvt74FtXB",
+            "pos": 20
+        },
+        {
+            "name": "Keep your head up",
+            "id": "spotify:track:4Jz4bjXeiF2SXVj9P4YfY5",
+            "pos": 9
+        },
+        {
+            "name": "No money",
+            "id": "spotify:track:6M6Tk58pQvABy6ru66dY3d",
+            "pos": 0
+        },
+        {
+            "name": "1-800",
+            "id": "spotify:track:5tz69p7tJuGPeMGwNTxYuV",
+            "pos": 36
+        },
+        {
+            "name": "Apologize",
+            "id": "spotify:track:6fOPuabPdAJ0HgqJFcDGb1",
+            "pos": 55
+        },
+        {
+            "name": "Weak",
+            "id": "spotify:track:7fBHjuqAIVOdy5xoNxy5YQ",
+            "pos": 29
+        },
+        {
+            "name": "No tears left to cry",
+            "id": "spotify:track:5SxkdsY1ufZzoq9iXceLw9",
+            "pos": 0
+        },
+        {
+            "name": "Rescue me",
+            "id": "spotify:track:3yelVZf4p9wDpWjPav5mOn",
+            "pos": 29
+        },
+        {
+            "name": "Blame it on me",
+            "id": "spotify:track:1ZemPoaj7LBj1RAQrb89EC",
+            "pos": 53
+        }
+    ],
+    "alone": [
+        {
+            "name": "Without you",
+            "id": "spotify:track:27OeeYzk6klgBh83TSvGMA",
+            "pos": 8
+        },
+        {
+            "name": "Here Without you",
+            "id": "spotify:track:3NLrRZoMF0Lx6zTlYqeIo4",
+            "pos": 45
+        },
+        {
+            "name": "Alone",
+            "id": "spotify:track:3MEYFivt6bilQ9q9mFWZ4g",
+            "pos": 68
+        },
+        {
+            "name": "Without you",
+            "id": "spotify:track:1tAutlhI9FwnKn7fVgmd5P",
+            "pos": 15
+        }
+    ],
+    "end": [
+        {
+            "name": "Final Countdown",
+            "id": "spotify:track:3MrRksHupTVEQ7YbA0FsZK",
+            "pos": 12
+        }
+    ]
+}
