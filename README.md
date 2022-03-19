@@ -1,0 +1,1 @@
+Project will ping your league client for information about the game sate and play appropriate music for whats currently going on in the game
