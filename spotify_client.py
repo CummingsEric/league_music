@@ -47,7 +47,7 @@ class spotifyClient():
     def timeRemaining(self):
         try:
             playerInfo = self._sp.current_playback()
-            return playerInfo['item']['duration_ms'] - playerInfo['progress_ms']
+            return (playerInfo['item']['duration_ms'] - playerInfo['progress_ms'])/1000
         except:
             return 0
 
