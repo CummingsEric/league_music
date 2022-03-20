@@ -1,30 +1,35 @@
 import time
 import spotify_client
-import league_client
+from event import *
 
 if __name__=="__main__":
 
     spotify = spotify_client.spotifyClient()
-    lol = league_client.leagueClient()
+    eg = eventGenerator(30)
+    oldEvent = None
+    currentEventType = None
+    currentEventTime = None
 
-    try:
-        while(True):
-            playerDoingGood = True
-            if playerDoingGood:
-                spotify.queueSong("good")
-                continue
+    
+    while(True):
+        #print("getting event")
+        currentEvent = eg.get_event()
+        print(f'the event returned was of type {currentEvent.getEventType()} from {currentEvent.getEventSource()}')
+        currentEventType = currentEvent.getEventType()
+        
+        if((oldEvent == None) or (currentEvent.getEventType() != oldEvent.getEventType())):
+            print(f'setting new song to {currentEvent.getEventType()}')
+            oldEvent = currentEvent
+            spotify.queueSong(currentEvent.getEventType())
+            time.sleep(20)
+            continue
 
-            if not playerDoingGood:
-                spotify.queueSong("bad")
-                continue
+        # Need to queue a song before the current one runs out
+        if spotify.timeRemaining() <= 20:
+            spotify.queueSong(oldEvent.getEventType())
 
-            # And so on for whatever we want...
+        time.sleep(5)
 
-            # Need to queue a song before the current one runs out
-            if spotify.timeRemaining() <= 20:
-                spotify.queueSong("whatever")
-
-            time.sleep(10)
-
-    except:
-        pass
+    #except Exception as e:
+    #    print(e)
+        
