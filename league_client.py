@@ -13,9 +13,11 @@ class leagueClient():
     _summoner_team = None
     _events = None
     _gameData = None
+    _recentTime = None
     
-    def __init__(self):
+    def __init__(self, recentTime):
         print("client started")
+        self._recentTime = recentTime
 
     def leagueClientRunning(self):
         hostname = 'https://127.0.0.1:2999/liveclientdata/allgamedata' #example
@@ -34,6 +36,7 @@ class leagueClient():
         self._allPlayers = self._game_info['allPlayers']
         self._events = pd.DataFrame.from_dict(self._game_info['events'])
         self._gameData = self._game_info['gameData']
+        self._recentEvents = self._events[self._events['EventTime'] < (self.getGametime()-self._recentTime)]
         #sett basic level information
         self._setPlayerStats()
         
@@ -93,12 +96,12 @@ class leagueClient():
     def getEnemySummonerNames(self):
         return [x['summonerName'] for x in self.getEnemyStats()]
 
-    def get_player_kda(self, summoner_name):
+    def getPlayerKDA(self, summoner_name):
         summoner_stats = list(filter(lambda players: players['summonerName'] == summoner_name, self._allPlayers))[0]
         return (summoner_stats['scores']['assists'] + summoner_stats['scores']['kills'])/max(1, summoner_stats['scores']['deaths'])
 
-    def get_summoner_kda(self):
-        return self.get_player_kda(self._summoner_name)
+    def getSummonerKDA(self):
+        return self.getPlayerKDA(self._summoner_name)
 
     def getFriendlyTeamKDA(self):
         [(x['scores']['assists'] + x['scores']['kills'])/max(1, x['scores']['deaths']) for x in self.getFriendlyStats()]
@@ -149,10 +152,10 @@ class leagueClient():
     #roles living or dead
     #is only alive
     def getFriendlyPlayerByPosition(self, position):
-        return list(filter(lambda players: players['position'] == '', self.getFriendlyStats()))[0]
+        return list(filter(lambda players: players['position'] == position, self.getFriendlyStats()))[0]
 
     def getEnemyPlayerByPosition(self, position):
-        return list(filter(lambda players: players['position'] == '', self.getFriendlyStats()))[0]
+        return list(filter(lambda players: players['position'] == position, self.getFriendlyStats()))[0]
 
     def getPlayerPosition(self, summoner_name):
         summoner_position = list(filter(lambda players: players['summonerName'] == summoner_name, self._allPlayers))[0]['position']
@@ -185,14 +188,14 @@ class leagueClient():
 
     def getFriendlyTurrets(self):
         team_to_name = {"T1":"CHAOS", "T2":"ORDER"}
-        turret_info = lc._events[lc._events['EventName'] == 'TurretKilled']['TurretKilled'].str.split('_',expand=True).drop([0,4], axis=1)
+        turret_info = self._events[self._events['EventName'] == 'TurretKilled']['TurretKilled'].str.split('_',expand=True).drop([0,4], axis=1)
         turret_info.columns = ['Team','Lane','Tier']
         turret_info = turret_info.replace({"Team": team_to_name})
         return turret_info[turret_info['Team']==self._summoner_team]
 
     def getEnemyTurrets(self):
         team_to_name = {"T1":"CHAOS", "T2":"ORDER"}
-        turret_info = lc._events[lc._events['EventName'] == 'TurretKilled']['TurretKilled'].str.split('_',expand=True).drop([0,4], axis=1)
+        turret_info = self._events[self._events['EventName'] == 'TurretKilled']['TurretKilled'].str.split('_',expand=True).drop([0,4], axis=1)
         turret_info.columns = ['Team','Lane','Tier']
         turret_info = turret_info.replace({"Team": team_to_name})
         return turret_info[turret_info['Team']!=self._summoner_team]
@@ -225,6 +228,80 @@ class leagueClient():
 
     def getGameTerrain(self):
         return self._gameData['mapTerrain']
+
+    #Event BASED METHODS
+
+    #Helpers
+    def get_recent_events(self):
+        return self._recentEvents
+
+    #end Helpers
+    def objRecentlyStolenByFriendly(self):
+        return (len(self._recentEvents[(self._recentEvents['EventName'].isin(['DragonKill','HeraldKill','BaronKill'])) & (self._recentEvents['Stolen'] == True) & (self._recentEvents['KillerName'].isin(self.getFriendlySummonerNames()))]) > 0)
+
+    def objRecentlyStolenByEnemy(self):
+        return (len(self._recentEvents[(self._recentEvents['EventName'].isin(['DragonKill','HeraldKill','BaronKill'])) & (self._recentEvents['Stolen'] == True) & (self._recentEvents['KillerName'].isin(self.getEnemySummonerNames()))]) > 0)
+
+    def elderRecentlyKilledByFriendly(self):
+        return (len(self._recentEvents[(self._recentEvents['EventName'].isin(['DragonKill'])) & (self._recentEvents['DragonType'] == 'Elder') & (self._recentEvents['KillerName'].isin(self.getFriendlySummonerNames()))]) > 0)
+
+    def elderRecentlyKilledByEnemy(self):
+        return (len(self._recentEvents[(self._recentEvents['EventName'].isin(['DragonKill'])) & (self._recentEvents['DragonType'] == 'Elder') & (self._recentEvents['KillerName'].isin(self.getEnemySummonerNames()))]) > 0)
+
+    def elderSpawningSoon(self):
+        if((self.getEnemyTeamDragonKills() > 4) or (self.getFriendlyTeamDragonKills() > 4)):
+            lastDragonKilledTime = (self._events[(self._recentEvents['EventName'].isin(['DragonKill']))].sort_values('EventID').tail(1)['EventTime'][0])
+            currentTime = self.getGametime()
+            diff = currentTime-lastDragonKilledTime
+            if(diff > 5 & diff < 6):
+                return True
+            else:
+                return False
+        else:
+            return False
+
+
+    def heraldRecentlyKilledByFriendly(self):
+        return (len(self._recentEvents[(self._recentEvents['EventName'].isin(['HeraldKill'])) & (self._recentEvents['KillerName'].isin(self.getFriendlySummonerNames()))]) > 0)
+
+    def heraldRecentlyKilledByEnemy(self):
+        return (len(self._recentEvents[(self._recentEvents['EventName'].isin(['HeraldKill']))  & (self._recentEvents['KillerName'].isin(self.getEnemySummonerNames()))]) > 0)
+
+    def barronRecentlyKilledByFriendly(self):
+        return (len(self._recentEvents[(self._recentEvents['EventName'].isin(['BaronKill'])) & (self._recentEvents['KillerName'].isin(self.getFriendlySummonerNames()))]) > 0)
+
+    def barronRecentlyKilledByEnemy(self):
+        return (len(self._recentEvents[(self._recentEvents['EventName'].isin(['BaronKill']))  & (self._recentEvents['KillerName'].isin(self.getEnemySummonerNames()))]) > 0)
+
+
+    def summonerRecentMultikill(self):
+        return (len(self._recentEvents[(self._recentEvents['EventName'].isin(['Multikill']))  & (self._recentEvents['KillerName'] == self._summoner_name)]) > 0)
+
+    def summonerKillstreak(self):
+        return self.isSummonerOnKillStreak()
+
+    def summonerDeathstreak(self):
+        return self.isSummonerOnDeathStreak()
+
+    def enemyKillstreak(self):
+        return (len(self.get_killStreaks()['KillerName'].isin(self.getEnemySummonerNames()))>0)
+
+    def alone(self):
+        return self.isAloneInBot() | self.isAloneInGame()
+
+    def long_game(self):
+        return self.getGametime() > 40*60
+
+    def summonerDoingGood(self):
+        kda = self.getSummonerKDA()
+        return kda > 3
+
+    def summonerDoingBad(self):
+        kda = self.getSummonerKDA()
+        return kda < 0.334
+
+
+
 
 if __name__ == "__main__":
     # Switch the comments to get real data
