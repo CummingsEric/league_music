@@ -16,9 +16,75 @@
             "name": "Aint gonna die tonight",
             "id": "spotify:track:0uuXUsowJAdBFtdmUUXweq",
             "pos": 54
+        },
+        {
+            "name": "Stayin alive",
+            "id": "spotify:track:4ICKuJDY5F2XdTR4fIMA7W",
+            "pos": 0
+        }
+    ],
+    "hype": [
+        {
+            "name": "Rembmer the name",
+            "id": "spotify:artist:5bf6yYgHODBW5EreBZshpX",
+            "pos": 19
+        },
+        {
+            "name": "Remember the name",
+            "id": "spotify:artist:5bf6yYgHODBW5EreBZshpX",
+            "pos": 19
+        },
+        {
+            "name": "Till I collapse",
+            "id": "spotify:track:4xkOaSrkexMciUUogZKVTS",
+            "pos": 44
+        }
+    ],
+    "terrible": [
+        {
+            "name": "u suck",
+            "id": "spotify:episode:3ELmmOZHlob1yzFmCQRAYg",
+            "pos": 591
+        }
+    ],
+    "bossFight": [
+        {
+            "name": "Rage of sparta",
+            "id": "spotify:track:0518DbKPCkn2XxsrKWZZ0G",
+            "pos": 12
         }
     ],
     "good": [
+        {
+            "name": "Forever",
+            "id": "spotify:track:5UsLjwBaTHBX4ektWIr4XX",
+            "pos": 0
+        },
+        {
+            "name": "Power",
+            "id": "spotify:track:2gZUPNdnz5Y45eiGxpHGSc",
+            "pos": 7
+        },
+        {
+            "name": "Not Afraid",
+            "id": "spotify:track:7Ie9W94M7OjPoZVV216Xus",
+            "pos": 19
+        },
+        {
+            "name": "Enemy",
+            "id": "spotify:track:1HhNoOuqm1a5MXYEgAFl8o",
+            "pos": 29
+        },
+        {
+            "name": "Legends never die",
+            "id": "spotify:track:1FpVJ7HpZInE2GvhVE2TwT",
+            "pos": 54 
+        },
+        {
+            "name": "Rise",
+            "id": "spotify:track:69Sy7207dnixZ6w7RSV9Kb",
+            "pos": 35
+        },
         {
             "name": "Through the fire and the flames",
             "id": "spotify:track:4dASQiO1Eoo3RJvt74FtXB",
@@ -53,6 +119,11 @@
             "name": "Nothing scares me",
             "id": "spotify:track:6xeCQCtG0VVzV69qTiUg21",
             "pos": 80
+        },
+        {
+            "name": "home",
+            "id": "spotify:track:1Wm8n5eQpDaOk2eQjf8ENd",
+            "pos": 0
         }
     ],
     "bad": [
@@ -122,6 +193,11 @@
             "name": "Without you",
             "id": "spotify:track:1tAutlhI9FwnKn7fVgmd5P",
             "pos": 15
+        },
+        {
+            "name": "I will remember you",
+            "id": "spotify:track:0HWP0zWAUviRgsXdqCCOSc",
+            "pos": 0
         }
     ],
     "end": [
@@ -129,6 +205,11 @@
             "name": "Final Countdown",
             "id": "spotify:track:3MrRksHupTVEQ7YbA0FsZK",
             "pos": 12
+        },
+        {
+            "name": "Closing time",
+            "id": "spotify:track:1A5V1sxyCLpKJezp75tUXn",
+            "pos": 9
         }
     ]
 }

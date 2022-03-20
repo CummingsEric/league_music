@@ -15,6 +15,7 @@ DEVICE_ID = os.getenv('DEVICE_ID')
 class spotifyClient():
     _sp = None
     _songs = None
+    _lastSong = None
 
     def __init__(self):
         # Spotify Authentication
@@ -27,14 +28,21 @@ class spotifyClient():
         with open('music.json') as songFile:
             self._songs = json.load(songFile)
 
+    # Queue a random song from a category based on a given mood
     def queueSong(self, type):
         try: 
             songList = self._songs[type]
             songData = random.choice(songList)
+            # Got the same song as the last one, reroll
+            if songData['id'] == self._lastSong:
+                songData = random.choice(songList)
+
             self._sp.start_playback(device_id=DEVICE_ID, uris=[songData['id']], position_ms=songData['pos']*1000)
+            self._lastSong = songData['id']
         except:
             pass
 
+    # Play the given song name to test
     def testSong(self, name):
         try: 
             for item in self._songs.values():
@@ -44,6 +52,7 @@ class spotifyClient():
         except:
             pass
 
+    # Return the time remaining in the current song in seconds
     def timeRemaining(self):
         try:
             playerInfo = self._sp.current_playback()
@@ -51,6 +60,6 @@ class spotifyClient():
         except:
             return 0
 
-# if __name__=="__main__":
-    # spot = spotifyClient()
-    # spot.testSong("Blame it on me")
+if __name__=="__main__":
+    spot = spotifyClient()
+    spot.testSong("u suck")
