@@ -35,7 +35,7 @@ class leagueClient():
         self._allPlayers = self._game_info['allPlayers']
         self._events = pd.DataFrame.from_dict(self._game_info['events']['Events'])
 
-        cols = ['Assisters', 'EventID', 'EventName', 'EventTime', 'InhibKilled', 'KillStreak', 'KillerName', 'Stolen', 'TurretKilled', 'VictimName', 'DragonType']
+        cols = ['Assisters', 'EventID', 'EventName', 'EventTime', 'InhibKilled', 'KillStreak', 'KillerName', 'Stolen', 'TurretKilled', 'VictimName', 'DragonType', 'Acer']
         for i in cols:
             if(not(i in self._events)):
                 self._events[i] = None
