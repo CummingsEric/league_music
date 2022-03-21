@@ -25,13 +25,8 @@
     ],
     "hype": [
         {
-            "name": "Rembmer the name",
-            "id": "spotify:artist:5bf6yYgHODBW5EreBZshpX",
-            "pos": 19
-        },
-        {
             "name": "Remember the name",
-            "id": "spotify:artist:5bf6yYgHODBW5EreBZshpX",
+            "id": "spotify:track:6ndmKwWqMozN2tcZqzCX4K",
             "pos": 19
         },
         {
@@ -47,7 +42,7 @@
             "pos": 591
         }
     ],
-    "bossFight": [
+    "boss": [
         {
             "name": "Rage of sparta",
             "id": "spotify:track:0518DbKPCkn2XxsrKWZZ0G",
