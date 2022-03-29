@@ -19,13 +19,12 @@ class leagueClient():
         self._recentTime = recentTime
 
     def leagueClientRunning(self):
-        hostname = 'https://127.0.0.1:2999/liveclientdata/allgamedata' #example
-        response = os.system("ping -c 1 " + hostname)
 
-        #and then check the response...
-        if response == 0:
+        try:
+            r = requests.get('https://127.0.0.1:2999/liveclientdata/allgamedata', verify=False)
+            r.raise_for_status() 
             return True
-        else:
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
             return False
 
     def _getAllData(self):

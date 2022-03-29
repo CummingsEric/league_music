@@ -4,6 +4,9 @@ class eventGenerator():
     def __init__(self, recentTimeThresh):
         self.lc = leagueClient(recentTimeThresh)
 
+    def isReady(self):
+        return self.lc.leagueClientRunning()
+
     def get_event(self):
         print('populating data')
         self.lc.populateData()
