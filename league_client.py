@@ -101,16 +101,16 @@ class leagueClient():
 
     def getPlayerKDA(self, summoner_name):
         summoner_stats = list(filter(lambda players: players['summonerName'] == summoner_name, self._allPlayers))[0]
-        return (summoner_stats['scores']['assists'] + summoner_stats['scores']['kills'])/max(1, summoner_stats['scores']['deaths'])
+        return (1+summoner_stats['scores']['assists'] + summoner_stats['scores']['kills'])/max(1, summoner_stats['scores']['deaths'])
 
     def getSummonerKDA(self):
         return self.getPlayerKDA(self._summoner_name)
 
     def getFriendlyTeamKDA(self):
-        [(x['scores']['assists'] + x['scores']['kills'])/max(1, x['scores']['deaths']) for x in self.getFriendlyStats()]
+        [(1 + x['scores']['assists'] + x['scores']['kills'])/max(1, x['scores']['deaths']) for x in self.getFriendlyStats()]
 
     def getEnemyTeamKDA(self):
-        [(x['scores']['assists'] + x['scores']['kills'])/max(1, x['scores']['deaths']) for x in self.getEnemyStats()]
+        [(1 + x['scores']['assists'] + x['scores']['kills'])/max(1, x['scores']['deaths']) for x in self.getEnemyStats()]
 
     def get_deathStreaks(self):
         last_kill = self._events[self._events['EventName'] == 'ChampionKill'].merge((self._events[self._events['EventName'] == 'ChampionKill'].sort_values(['EventTime']).groupby('KillerName').agg({'EventTime':'max'})).reset_index(), left_on="VictimName", right_on="KillerName", how='left', suffixes=('_main', '_lastkill'))
