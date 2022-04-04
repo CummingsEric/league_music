@@ -45,7 +45,7 @@ class leagueClient {
     }
 
     setPlayerStats() {
-        this.summonerName = this.activePlayer.summonerName
+        this.summonerName = this.activePlayer['summonerName']
         this.summonerData = this.allPlayers.find(p => p['summonerName'] === this.summonerName)
         this.summonerTeam = this.summonerData['team']
     }
@@ -77,14 +77,14 @@ class leagueClient {
         return this.getEnemyStats().map(p => p['summonerName'])
     }
 
-    getPlayerStats(summonerName){
-        const summoner_stats = this.allPlayers.find(p => p['summonerName'] === summonerName)
-        if (summoner_stats === undefined) return {}
-        return summoner_stats
+    getPlayerStats(playerName){
+        const playerStats = this.allPlayers.find(p => p['summonerName'] === playerName)
+        if (playerStats === undefined) return {}
+        return playerStats
     }
 
-    getPlayerKDA(summonerName) {
-        const summoner_stats = this.getPlayerStats(summonerName)
+    getPlayerKDA(playerName) {
+        const summoner_stats = this.getPlayerStats(playerName)
         return (summoner_stats['scores']['assists'] + summoner_stats['scores']['kills'])/Math.max(1, summoner_stats['scores']['deaths'])
     }
 
@@ -100,15 +100,15 @@ class leagueClient {
         return this.getEnemyStats().map(s => (s['scores']['assists'] + s['scores']['kills'])/Math.max(1, s['scores']['deaths']))
     }
 
-    getPlayerGold(summoner_name) {
-        const summoner_stats = this.getPlayerStats(summonerName)
-        const summoner_items = summoner_stats['items']
-        const goldArr = summoner_items.map(item => item['price'] *item['count'])
+    getPlayerGold(playerName) {
+        const playerStats = this.getPlayerStats(playerName)
+        const summonerItems = playerStats['items']
+        const goldArr = summonerItems.map(item => item['price'] *item['count'])
         return goldArr.reduce((sum, a) => sum + a, 0)
     }
 
     getSummonerGold() {
-        return self.getPlayerGold(self._summoner_name)
+        return this.getPlayerGold(this.summonerName)
     }
 
     getFriendlyTeamGold() {
@@ -121,6 +121,61 @@ class leagueClient {
         return goldArr.reduce((sum, a) => sum + a, 0);
     }
 
+    getFriendlyPlayerByPosition(position){
+        const teamStats = self.getFriendlyStats();
+        return teamStats.find(p => p['position'] === position);
+    }
+
+    getFriendlyPlayerByPosition(position){
+        const enemyStats = self.getEnemyStats();
+        return enemyStats.find(p => p['position'] === position);
+    }
+
+    getPlayerPosition(playerName) {
+        const playerStats = this.getPlayerStats(playerName);
+        return playerStats['position'];
+    }
+
+    isPlayerDead(playerName) {
+        const playerStats = this.getPlayerStats(playerName);
+        return playerStats['isDead'];
+    }
+
+    isFriendlyPositionDead(position) {
+        const positionStats = this.getFriendlyPlayerByPosition(position);
+        return positionStats['isDead'];
+    }
+
+    isEnemyPositionDead(position) {
+        const positionStats = this.getEnemyPlayerByPosition(position);
+        return positionStats['isDead'];
+    }
+
+    isAloneInBot(){
+        const summonerPosition = this.getPlayerPosition(this.summonerName);
+        if (summonerPosition === 'BOTTOM') {
+            return this.isFriendlyPositionDead('SUPPORT');
+        } 
+        if (summonerPosition === 'SUPPORT') {
+            return this.isFriendlyPositionDead('BOTTOM');
+        }
+        return false;
+    }
+
+    isAloneInGame() {
+        // Can't be alone if youre dead
+        if (this.isPlayerDead(this.summonerName)===true){
+            return false;
+        }
+        const teamStats = this.getFriendlyStats()
+        for (stat in teamStats) {
+            // If anyone else on your team is alive you're not alone
+            if (stat['summonerName'] !== this.summonerName && stat['isDead'] === 0){
+                return false;
+            }
+        } 
+        return true;
+    }
 }
 
 
